@@ -6,7 +6,7 @@ import random
 
 
 class NeuralNetwork:
-    def __init__(self, nLayers, nIteration=10, learningRate=0.1, regularization=0.0001):
+    def __init__(self, nLayers, nIteration=10, learningRate=0.1, regularization=0.01):
         ### nLayers: number of layers
         ### nIteration: number of iterations
         self.nLayers = nLayers
