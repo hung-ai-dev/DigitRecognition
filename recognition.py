@@ -7,18 +7,18 @@ import NeuralNetwork as nn
 import csv
 from os import listdir
 
-data = pd.read_csv("mnist_train.csv", header=None)
-X_data = data.iloc[:2000, 1:].values  # X_train(100 x 784)
+data = pd.read_csv("train.csv")
+X_data = data.iloc[:30000, 1:].values  # X_train(100 x 784)
 X_data.astype(float)
-y_data = data.iloc[:2000, 0].values  # y_train(100 x 1)
-select_value = np.arange(2000)
+y_data = data.iloc[:30000, 0].values  # y_train(100 x 1)
+select_value = np.arange(30000)
 NN = nn.NeuralNetwork(3, 1, 0.01)
 
-for i in range(1500):
+for i in range(1000):
     print(i, " :")
     np.random.shuffle(select_value)
-    X_train = X_data[select_value[:500]]
-    y_train = y_data[select_value[:500]]
+    X_train = X_data[select_value[:100]]
+    y_train = y_data[select_value[:100]]
     X_train = X_train / 256
     # print(y_train)
     NN.train(X_train, y_train)

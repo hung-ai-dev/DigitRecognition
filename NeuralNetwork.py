@@ -42,8 +42,8 @@ class NeuralNetwork:
 
         if (self.initW == False):
             self.w = [
-                np.random.uniform(-0.2, 0.2, (self.nLayer[1], self.nLayer[0] + 1)),
-                np.random.uniform(-0.2, 0.2, (self.nLayer[2], self.nLayer[1] + 1))
+                np.random.uniform(-0.17, 0.17, (self.nLayer[1], self.nLayer[0] + 1)),
+                np.random.uniform(-0.17, 0.17, (self.nLayer[2], self.nLayer[1] + 1))
             ]
             self.initW = True
 
