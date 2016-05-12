@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import random
 import NeuralNetwork as nn
+import csv
 from os import listdir
 
 data = pd.read_csv("mnist_train.csv", header=None)
@@ -13,7 +14,7 @@ y_data = data.iloc[:2000, 0].values  # y_train(100 x 1)
 select_value = np.arange(2000)
 NN = nn.NeuralNetwork(3, 1, 0.01)
 
-for i in range(2000):
+for i in range(1500):
     print(i, " :")
     np.random.shuffle(select_value)
     X_train = X_data[select_value[:500]]
@@ -22,33 +23,53 @@ for i in range(2000):
     # print(y_train)
     NN.train(X_train, y_train)
 
-url = r"E:\Machine Learning\Handwritten digit\Python Code\DigitRecognition\image"
-file_list = listdir(url)
 
-for i in range(len(file_list)):
-    print(file_list[i])
-    image = cv2.imread(url+ "\\" +file_list[i])
-    cv2.imshow("image", image)
-    image = cv2.resize(image, (28, 28), interpolation=cv2.INTER_AREA)
-    cv2.waitKey(0)
-    gray_image = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
-    #print(gray_image.shape)
-    gray_image.astype(float)
-    gray_image = 255 - gray_image
-    #print(gray_image)
-    gray_image = gray_image / 256
-    NN.classification(gray_image)
+def forImage():
+    url = r"E:\Machine Learning\Handwritten digit\Python Code\DigitRecognition\image"
+    file_list = listdir(url)
 
-"""
-data2 = pd.read_csv("mnist_test.csv", header = None)
-X = data2.iloc[:, 1:].values  # X_train(100 x 784)
-X.astype(float)
-y = data2.iloc[:, 0].values  # y_train(100 x 1)
-X = X / 256
-y = NN.makeOutput(y)
+    for i in range(len(file_list)):
+        print(file_list[i])
+        image = cv2.imread(url + "\\" + file_list[i])
+        cv2.imshow("image", image)
+        image = cv2.resize(image, (28, 28), interpolation=cv2.INTER_AREA)
+        cv2.waitKey(0)
+        gray_image = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
+        # print(gray_image.shape)
+        gray_image.astype(float)
+        gray_image = 255 - gray_image
+        # print(gray_image)
+        gray_image = gray_image / 256
+        out = NN.classification(gray_image)
 
-for i in range(100):
-    print("case ", i)
-    NN.classification(X[i])
-    print(y[i])
-"""
+        pre = -1
+        max = 0
+        for j in range(len(out)):
+            if (out[j] > max):
+                max = out[j]
+                pre = j
+        print("-----Predict: ", pre)
+
+
+def forCsv():
+
+    data2 = pd.read_csv("test.csv")
+    X = data2.iloc[:, :].values  # X_train(100 x 784)
+    X.astype(float)
+    X = X / 256
+    with open("output.csv", "w", newline="") as mycsvfile:
+        target = csv.writer(mycsvfile)
+        target.writerow(["ImageId", "Label"])
+
+        for i in range(X.shape[0]):
+            print("case ", i)
+            out = NN.classification(X[i])
+            pre = -1
+            max = 0
+            for j in range(len(out)):
+                if (out[j] > max):
+                    max = out[j]
+                    pre = j
+            target.writerow([str(i + 1), str(pre)])
+
+forImage()

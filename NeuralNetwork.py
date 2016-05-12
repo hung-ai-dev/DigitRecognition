@@ -98,12 +98,15 @@ class NeuralNetwork:
         hidden = self.sigmoid(X_test.dot(self.w[0].T))
         hidden = np.insert(hidden, 0, 1.0)
         out = self.sigmoid(hidden.dot(self.w[1].T))
-        out = np.round(out)
 
         print("--RESULT")
+        """
+        out = np.round(out)
         for i in range(len(out)):
             if (out[i] == 1):
                 print("-----Predict:", i)
+        """
+        return out
 
     def sigmoid(self, z):
         return 1.0 / (1.0 + np.exp(-z))
