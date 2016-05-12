@@ -13,6 +13,7 @@ class NeuralNetwork:
         self.nIteration = nIteration
         self.learningRate = learningRate
         self.regularization = regularization
+        self.initW = False
 
     def init(self, X_train, y_train):
         ### self.nLayer: number of neural at each layer (28*28, 30, 10)
@@ -39,10 +40,12 @@ class NeuralNetwork:
             np.zeros((self.m, self.nLayer[2]))
         ]
 
-        self.w = [
-            np.random.uniform(-0.12, 0.12, (self.nLayer[1], self.nLayer[0] + 1)),
-            np.random.uniform(-0.12, 0.12, (self.nLayer[2], self.nLayer[1] + 1))
-        ]
+        if (self.initW == False):
+            self.w = [
+                np.random.uniform(-0.2, 0.2, (self.nLayer[1], self.nLayer[0] + 1)),
+                np.random.uniform(-0.2, 0.2, (self.nLayer[2], self.nLayer[1] + 1))
+            ]
+            self.initW = True
 
         self.cost = 0
 
@@ -96,7 +99,11 @@ class NeuralNetwork:
         hidden = np.insert(hidden, 0, 1.0)
         out = self.sigmoid(hidden.dot(self.w[1].T))
         out = np.round(out)
-        print(out)
+
+        print("--RESULT")
+        for i in range(len(out)):
+            if (out[i] == 1):
+                print("-----Predict:", i)
 
     def sigmoid(self, z):
         return 1.0 / (1.0 + np.exp(-z))
