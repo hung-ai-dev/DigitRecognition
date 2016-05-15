@@ -4,7 +4,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import random
 
-
 class NeuralNetwork:
     def __init__(self, nLayers, nIteration=10, learningRate=0.1, regularization=0.01):
         ### nLayers: number of layers
@@ -42,8 +41,8 @@ class NeuralNetwork:
 
         if (self.initW == False):
             self.w = [
-                np.random.uniform(-0.17, 0.17, (self.nLayer[1], self.nLayer[0] + 1)),
-                np.random.uniform(-0.17, 0.17, (self.nLayer[2], self.nLayer[1] + 1))
+                np.random.uniform(-0.2, 0.2, (self.nLayer[1], self.nLayer[0] + 1)),
+                np.random.uniform(-0.2, 0.2, (self.nLayer[2], self.nLayer[1] + 1))
             ]
             self.initW = True
 
